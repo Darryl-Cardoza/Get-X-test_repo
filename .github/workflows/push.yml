@@ -37,9 +37,9 @@ jobs:
           flutter test --coverage --machine > test-results/results.json || true
           cat test-results/results.json
 
-      - name: Convert to JUnit format using test_reporter
+      - name: Convert JSON to JUnit XML
         run: |
-          dart run test_reporter --input test-results/results.json --output test-results/test-report.xml || true
+          dart run tool/json_to_junit.dart < test-results/results.json > test-results/test-report.xml || true
           cat test-results/test-report.xml
 
       - name: Convert JUnit XML to HTML
