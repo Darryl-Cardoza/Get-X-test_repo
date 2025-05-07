@@ -1,0 +1,142 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Global .gitignore - ignore OS, IDE, languages, frameworks, logs, secrets, and build artifacts
+
+############################
+# Operating System Files
+############################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Thumbnails
+._*
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.fd.*
+.Trashes
+# macOS Finder
+.VolumeIcon.icns
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# Linux
+*~
+.nfs*
+
+############################
+# Editor and IDE
+############################
+# VSCode
+.vscode/
+# JetBrains (IntelliJ, Android Studio, PyCharm)
+.idea/
+.idea
+*.iml
+*.iws
+*.ipr
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+# Emacs
+
+
+# Vim
+*.swp
+*.swo
+# Nano
+*.save
+
+############################
+# Dependency directories
+############################
+node_modules/
+jspm_packages/
+bower_components/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+# Java
+target/
+*.class
+# Ruby
+.bundle/
+vendor/bundle/
+# Go
+/bin/
+/pkg/
+# Dart/Flutter
+.dart_tool/
+.packages
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-version
+generated_plugin_registrant.dart
+build/
+
+############################
+# Build outputs and logs
+############################
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+dist/
+temp/
+tmp/
+coverage/
+.report/
+
+############################
+# Environment and secret files
+############################
+.env
+.env.*
+secret.json
+credentials/
+key.pem
+key.pub
+
+############################
+# Platform-specific
+############################
+# Android
+android/.gradle/
+android/app/local.properties
+android/app/*.iml
+android/app/build/
+android/build/
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/ServiceDefinitions.json
+
+############################
+# Generator and coverage files
+############################
+reports/
+doc/api/
+generated/
+
+############################
+# Miscellaneous
+############################
+*.tmp
+*.temp
+*.bak
+*.old
+
+# End of global .gitignore
+

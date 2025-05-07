@@ -1,0 +1,116 @@
+name: getx
+description: "A new Flutter project using GetX and Clean Architecture."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"    # Dart SDK constraint
+  flutter: ">=3.0.0"       # Flutter SDK constraint
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # State management, routing, and dependency injection
+  # GetX provides a lightweight, high-performance solution for
+  # reactive state, navigation, and DI in Flutter.
+  get: ^4.6.5
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # HTTP client for making RESTful requests
+  # A composable, Future-based API for performing GET/POST/etc.
+  http: ^1.3.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Simple, synchronous key-value storage
+  # Built on top of shared_preferences, but fully integrated
+  # with GetX for ease of use (no Futures required).
+  get_storage: ^2.0.3
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Structured, pretty logging utility
+  # Enables easy debug/info/warning/error logs with optional
+  # colored output and log levels.
+  logger: ^1.1.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Value equality helpers for Dart classes
+  # Makes comparing domain entities easy by overriding == and hashCode.
+  equatable: ^2.0.3
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Official Cupertino (iOS-style) icon pack
+  # Provides access to Apple’s SF Symbols for building
+  # iOS-style UIs.
+  cupertino_icons: ^1.0.8
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Retry logic with exponential backoff
+  # Provides configurable retry strategies for Futures and Streams.
+  retry: ^3.1.2
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Network connectivity monitoring
+  # Detects online/offline status for conditional logic.
+  connectivity_plus: ^6.1.4
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Google Fonts integration
+  # Easily include and use 1000+ Google Fonts in your Flutter app.
+  google_fonts: ^6.2.1
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Secure storage for sensitive data
+  # Stores data in Keychain (iOS) / Keystore (Android).
+  flutter_secure_storage: ^9.2.4
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Encryption (AES, RSA)
+  # Provides high-level APIs for encrypting/decrypting strings and bytes.
+  encrypt: ^5.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Recommended linter rules for Flutter projects
+  # Encourages best practices and consistent style.
+  flutter_lints: ^5.0.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Build runner for code generation tasks
+  # Required if you employ packages like json_serializable.
+  build_runner: ^2.3.3
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # JSON serialization code generator
+  # Annotate your models and let this package generate
+  # toJson/fromJson boilerplate.
+  json_serializable: ^6.5.4
+
+  mockito:
+
+  integration_test: # for end-to-end tests
+    sdk: flutter
+
+dependency_overrides:
+  analyzer: '>=6.0.0 <7.0.0'
+
+flutter:
+  uses-material-design: true
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # (Optional) Add your asset directories here:
+  assets:
+    - assets/lang/en_US.json
+    - assets/lang/hi_IN.json
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # (Optional) Declare custom font families here:
+  # fonts:
+  #   - family: YourFont
+  #     fonts:
+  #       - asset: fonts/YourFont-Regular.ttf
+  #         weight: 400
