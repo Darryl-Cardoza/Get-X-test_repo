@@ -70,6 +70,11 @@ dependencies:
   # Provides high-level APIs for encrypting/decrypting strings and bytes.
   encrypt: ^5.0.1
 
+  # ───────────────────────────────────────────────────────────────────────────
+  # JUnit XML Report Generator
+  # Converts test results to JUnit-style XML format for CI integrations.
+  junitreport: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
