@@ -3,9 +3,24 @@ import 'dart:io';
 
 void main() async {
   final input = await stdin.transform(utf8.decoder).join();
+
+  if (input.trim().isEmpty) {
+    stderr.writeln('⚠️ Input is empty. No test results to convert.');
+    // Output a minimal valid JUnit XML so downstream tools don’t fail
+    print('<?xml version="1.0" encoding="UTF-8"?><testsuites></testsuites>');
+    exit(0); // Gracefully exit
+  }
+
   final events = LineSplitter.split(input)
-      .map((line) => json.decode(line))
-      .where((e) => e is Map)
+      .where((line) => line.trim().isNotEmpty)
+      .map((line) {
+    try {
+      return json.decode(line);
+    } catch (_) {
+      return null;
+    }
+  })
+      .whereType<Map>()
       .toList();
 
   final testCases = <String, List<Map>>{};
