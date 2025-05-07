@@ -1,0 +1,206 @@
+name: "Test and Build Flutter App"
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main, master]
+
+env:
+  FLUTTER_VERSION: ${{ vars.FLUTTER_VERSION }}
+  FLUTTER_CHANNEL: ${{ vars.FLUTTER_CHANNEL }}
+
+jobs:
+  coverage:
+    name: Generate Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load Environment Variables
+        run: source .github/env.sh
+
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Run Flutter Tests with Coverage and Machine Output
+        run: |
+          mkdir -p test-results
+          flutter test --coverage --machine > test-results/results.json || true
+          cat test-results/results.json
+
+      - name: Convert to JUnit format
+        run: |
+          cat test-results/results.json | flutter pub run junitreport:tojunit > test-results/test-report.xml || true
+          cat test-results/test-report.xml  
+
+      - name: Convert JUnit XML to HTML
+        uses: pl-strflt/junit-xml-to-html@v1
+        with:
+          mode: 'no-frames'
+          input: 'test-results/test-report.xml'
+          output: 'test-results/test-report.html'
+
+      - name: Analyze Test Results and Allow Minor Failures
+        run: dart run tool/run_filtered_tests.dart
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Flutter-Test-Report
+          path: test-results/test-report.html
+
+      - name: Run Flutter Tests with Coverage
+        run: flutter test --coverage --machine > test-results/results.json || true
+
+      - name: Install LCOV
+        run: sudo apt-get install -y lcov
+
+      - name: Generate HTML Coverage Report
+        run: |
+          mkdir -p coverage_report
+          genhtml coverage/lcov.info \
+            --output-directory coverage_report \
+            --title "Flutter Test Coverage" \
+            --show-details \
+            --highlight \
+            --legend
+
+      - name: Upload HTML Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Flutter-Coverage-Report
+          path: coverage_report/
+
+      - name: Check Coverage Threshold
+        run: |
+          total_coverage=$(lcov --summary coverage/lcov.info | grep -Po 'lines\.*: \K[0-9.]+(?=%)')
+          echo "Total Coverage: $total_coverage%"
+          result=$(echo "$total_coverage < $COVERAGE_THRESHOLD" | bc -l)
+          if [ "$result" -eq 1 ]; then
+            echo "Code coverage ($total_coverage%) is below threshold ($COVERAGE_THRESHOLD%)."
+            exit 1 
+          else
+            echo "Code coverage ($total_coverage%) meets the threshold." 
+          fi
+
+      - name: Debug LCOV Output
+        run: |
+          ls -la coverage
+          head coverage/lcov.info
+
+      - name: Ensure Coverage Report is Ready
+        run: |
+          if [ ! -f coverage/lcov.info ]; then
+            echo "lcov.info not found! Did coverage generation fail?"
+            exit 1
+          fi
+
+      - name: Confirm lcov.info is Populated
+        run: |
+          echo "Preview of lcov.info:"
+          head -n 20 coverage/lcov.info
+          echo "Size: $(du -h coverage/lcov.info)"
+
+      - name: Upload Coverage to Codacy
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
+            --language Dart \
+            --coverage-reports coverage/lcov.info \
+            --commit-uuid ${{ github.sha }} \
+            --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+
+  build:
+    name: Build App
+    needs: coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load Environment Variables
+        run: source .github/env.sh
+
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Build Debug APK
+        run: flutter build apk --split-per-abi
+
+      - name: Build iOS App
+        if: ${{ vars.BUILD_IOS == 'true' }}
+        run: flutter build ios --no-codesign
+
+  sonarqube:
+    name: SonarQube Scan
+    needs: coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+#  codacy:
+#    name: Codacy Security Scan
+#    needs: coverage
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      security-events: write
+#      actions: read
+#
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Flutter
+#        uses: ./.github/actions/setup-flutter
+#
+#      - name: Set up Codacy CLI
+#        run: |
+#          curl -Ls https://raw.githubusercontent.com/codacy/codacy-cli-v2/main/codacy-cli.sh \
+#            -o /tmp/codacy-cli-v2 && chmod +x /tmp/codacy-cli-v2
+#
+#      - name: Initialize Codacy CLI
+#        run: /tmp/codacy-cli-v2 init
+#
+#      - name: Run Codacy CLI Analysis
+#        run: |
+#          /tmp/codacy-cli-v2 analyze \
+#            --tool dartanalyzer \
+#            --format sarif \
+#            --output ./results.sarif
+#
+#      - name: Upload SARIF Results to Codacy
+#        run: |
+#          if [ -f ./results.sarif ]; then
+#            /tmp/codacy-cli-v2 upload \
+#              --sarif-path ./results.sarif \
+#              --commit-uuid ${{ github.sha }} \
+#              --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+#          else
+#            echo "No SARIF file found, skipping upload"
+#          fi
+#
