@@ -73,7 +73,7 @@ dependencies:
   # ───────────────────────────────────────────────────────────────────────────
   # JUnit XML Report Generator
   # Converts test results to JUnit-style XML format for CI integrations.
-  junitreport: ^2.0.2
+  junitreport:
 
 dev_dependencies:
   flutter_test:
