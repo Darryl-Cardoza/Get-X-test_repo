@@ -34,7 +34,7 @@ void main() {
     final tPassword = 'Pass@123';
     final tToken = 'jwt123';
 
-    test('should call remote datasource and save token', () async {
+    test('CRITICAL: should call remote datasource and save token', () async {
       when(mockRemote.login(tEmail, tPassword)).thenAnswer((_) async => tToken);
 
       final result = await repository.login(tEmail, tPassword);
@@ -45,7 +45,7 @@ void main() {
       verify(mockApiService.setAuthToken(tToken));
     });
 
-    test('should return false if empty token', () async {
+    test('MINOR: should return false if empty token', () async {
       when(mockRemote.login(tEmail, tPassword)).thenAnswer((_) async => '');
 
       final result = await repository.login(tEmail, tPassword);
@@ -55,7 +55,7 @@ void main() {
       verifyNever(mockStorage.write(any, any));
     });
 
-    test('should throw exception on remote error', () async {
+    test('CRITICAL: should throw exception on remote error', () async {
       when(mockRemote.login(any, any)).thenThrow(Exception('error'));
 
       expect(

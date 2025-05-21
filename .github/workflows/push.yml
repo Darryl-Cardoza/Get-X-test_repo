@@ -110,13 +110,13 @@ jobs:
           head -n 20 coverage/lcov.info
           echo "Size: $(du -h coverage/lcov.info)"
 
-      - name: Upload Coverage to Codacy
-        run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-            --language Dart \
-            --coverage-reports coverage/lcov.info \
-            --commit-uuid ${{ github.sha }} \
-            --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
+#      - name: Upload Coverage to Codacy
+#        run: |
+#          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
+#            --language Dart \
+#            --coverage-reports coverage/lcov.info \
+#            --commit-uuid ${{ github.sha }} \
+#            --project-token ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   build:
     name: Build App

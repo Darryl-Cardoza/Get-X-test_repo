@@ -25,7 +25,7 @@ void main() {
 
   group('login', () {
     test(
-        'returns token and calls setAuthToken when response contains valid token',
+        'CRITICAL: returns token and calls setAuthToken when response contains valid token',
         () async {
       // Arrange: stub ApiService.post to return a valid JSON map
       when(mockApiService.post<Map<String, dynamic>>(
@@ -46,7 +46,7 @@ void main() {
     });
 
     test(
-        'throws FormatException when response contains missing or non-string token',
+        'MINOR: throws FormatException when response contains missing or non-string token',
         () async {
       when(mockApiService.post<Map<String, dynamic>>(
         '/login',
@@ -60,7 +60,7 @@ void main() {
       );
     });
 
-    test('rethrows ApiException from ApiService', () async {
+    test('CRITICAL: rethrows ApiException from ApiService', () async {
       when(mockApiService.post<Map<String, dynamic>>(
         '/login',
         body: anyNamed('body'),
@@ -72,7 +72,7 @@ void main() {
       );
     });
 
-    test('wraps unexpected errors into ApiException with statusCode -1',
+    test('CRITICAL: wraps unexpected errors into ApiException with statusCode -1',
         () async {
       when(mockApiService.post<Map<String, dynamic>>(
         '/login',

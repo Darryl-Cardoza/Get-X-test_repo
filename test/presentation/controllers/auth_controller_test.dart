@@ -27,7 +27,7 @@ void main() {
     controller = AuthController(loginUseCase: mockUseCase);
   });
 
-  test('successful login toggles loading but does not throw', () async {
+  test('CRITICAL: successful login toggles loading but does not throw', () async {
     when(mockUseCase.execute(any, any)).thenAnswer((_) async => true);
 
     // Before login
@@ -41,7 +41,7 @@ void main() {
     // No exception means pass
   });
 
-  test('failed login toggles loading but does not throw', () async {
+  test('CRITICAL: failed login toggles loading but does not throw', () async {
     when(mockUseCase.execute(any, any)).thenAnswer((_) async => false);
 
     // Expect the Future to complete successfully.
@@ -55,7 +55,7 @@ void main() {
     expect(controller.isLoading.value, isFalse);
   });
 
-  test('validation errors turn loading off immediately', () async {
+  test('CRITICAL: validation errors turn loading off immediately', () async {
     // Empty email
     await controller.login('', 'Pass@123');
     expect(controller.isLoading.value, isFalse);

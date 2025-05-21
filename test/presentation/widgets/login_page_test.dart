@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:getx/features/auth/presentation/widgets/login_form.dart';
 
 void main() {
-  testWidgets('LoginPage renders and submits', (tester) async {
+  testWidgets('CRITICAL: LoginPage renders and submits', (tester) async {
     bool didSubmit = false;
     await tester.pumpWidget(MaterialApp(
         // home: Scaffold(

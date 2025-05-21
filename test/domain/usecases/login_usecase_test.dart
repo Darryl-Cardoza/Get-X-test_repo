@@ -25,7 +25,7 @@ void main() {
     );
   });
 
-  test('throws network error when offline', () async {
+  test('CRITICAL: throws network error when offline', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => false);
 
     await expectLater(
@@ -36,7 +36,7 @@ void main() {
     );
   });
 
-  test('throws validation error on invalid email', () async {
+  test('CRITICAL: throws validation error on invalid email', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
 
     await expectLater(
@@ -48,7 +48,7 @@ void main() {
     );
   });
 
-  test('throws validation error on empty password', () async {
+  test('CRITICAL: throws validation error on empty password', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
 
     await expectLater(
@@ -60,7 +60,7 @@ void main() {
     );
   });
 
-  test('trims email before validation and repository call', () async {
+  test('MINOR: trims email before validation and repository call', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
     when(mockRepo.login('user@example.com', 'Test@123'))
         .thenAnswer((_) async => true);
@@ -69,7 +69,7 @@ void main() {
     expect(result, isTrue);
   });
 
-  test('returns true on successful login', () async {
+  test('CRITICAL: returns true on successful login', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
     when(mockRepo.login('user@example.com', 'Test@123'))
         .thenAnswer((_) async => true);
@@ -78,7 +78,7 @@ void main() {
     expect(result, isTrue);
   });
 
-  test('throws unauthorized on bad credentials', () async {
+  test('CRITICAL: throws unauthorized on bad credentials', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
     when(mockRepo.login('user@example.com', 'wrongpass'))
         .thenAnswer((_) async => false);
@@ -92,7 +92,7 @@ void main() {
     );
   });
 
-  test('rethrows ApiException from repository', () async {
+  test('CRITICAL: rethrows ApiException from repository', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
     when(mockRepo.login(any, any))
         .thenThrow(ApiException.forbidden('Forbidden user'));
@@ -105,7 +105,7 @@ void main() {
     );
   });
 
-  test('wraps unexpected errors into serverError', () async {
+  test('CRITICAL: wraps unexpected errors into serverError', () async {
     when(mockNetwork.isConnected).thenAnswer((_) async => true);
     when(mockRepo.login(any, any)).thenThrow(Exception('boom'));
 
