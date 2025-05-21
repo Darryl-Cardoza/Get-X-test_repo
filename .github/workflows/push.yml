@@ -49,14 +49,14 @@ jobs:
           input: 'test-results/test-report.xml'
           output: 'test-results/test-report.html'
 
-      - name: Analyze Test Results and Allow Minor Failures
-        run: dart run tool/run_filtered_tests.dart
-
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
           name: Flutter-Test-Report
           path: test-results/test-report.html
+
+      - name: Analyze Test Results and Allow Minor Failures
+        run: dart run tool/run_filtered_tests.dart
 
       - name: Run Flutter Tests with Coverage
         run: flutter test --coverage --machine > test-results/results.json || true
