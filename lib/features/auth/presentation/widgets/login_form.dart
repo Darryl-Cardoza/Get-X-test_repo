@@ -106,6 +106,7 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                key: const Key('login_button'),
                 onPressed: _handleSubmit,
                 child: const Text('Login'),
               ),
