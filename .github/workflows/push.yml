@@ -18,6 +18,7 @@ jobs:
       version_name: "1.0.0"
       build_number: ${{ github.run_number }}
       coverage_threshold: ${{ vars.COVERAGE_THRESHOLD || '30' }}
+      run_integration_tests: true
       # Build only for release tags, the only case `cd` needs artifacts.
       run_build: ${{ startsWith(github.ref, 'refs/tags/') }}
       build_ios: ${{ startsWith(github.ref, 'refs/tags/') && vars.BUILD_IOS == 'true' }}
@@ -38,3 +39,4 @@ jobs:
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      
