@@ -43,7 +43,7 @@ dependencies:
   # Official Cupertino (iOS-style) icon pack
   # Provides access to Apple’s SF Symbols for building
   # iOS-style UIs.
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^2.0.0
 
   # ───────────────────────────────────────────────────────────────────────────
   # Retry logic with exponential backoff
