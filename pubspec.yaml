@@ -63,7 +63,7 @@ dependencies:
   # ───────────────────────────────────────────────────────────────────────────
   # Secure storage for sensitive data
   # Stores data in Keychain (iOS) / Keystore (Android).
-  flutter_secure_storage: ^9.2.4
+  flutter_secure_storage: ^11.2.0
 
   # ───────────────────────────────────────────────────────────────────────────
   # Encryption (AES, RSA)
