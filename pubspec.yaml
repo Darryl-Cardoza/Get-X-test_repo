@@ -53,7 +53,7 @@ dependencies:
   # ───────────────────────────────────────────────────────────────────────────
   # Network connectivity monitoring
   # Detects online/offline status for conditional logic.
-  connectivity_plus: ^6.1.4
+  connectivity_plus: ^7.3.2
 
   # ───────────────────────────────────────────────────────────────────────────
   # Google Fonts integration
