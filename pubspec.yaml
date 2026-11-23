@@ -32,7 +32,7 @@ dependencies:
   # Structured, pretty logging utility
   # Enables easy debug/info/warning/error logs with optional
   # colored output and log levels.
-  logger: ^1.1.0
+  logger: ^2.8.0
 
   # ───────────────────────────────────────────────────────────────────────────
   # Value equality helpers for Dart classes
